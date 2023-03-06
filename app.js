@@ -9,6 +9,9 @@ const __dirname = path.resolve();
 const PORT = 3000;
 const app = express();
 
+app.set("view engine", "pug");
+app.set("views", "views"); // By default its /views, no need to add it explicity if path is same
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
