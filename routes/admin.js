@@ -5,18 +5,21 @@ const __dirname = path.resolve();
 
 const router = express.Router();
 
+export const products = [];
+
 router.use("/products", (req, res, next) => {
   res.send("<h3>Hello from Products page</h3>");
 });
 
-// /admin/add-product
+// GET /admin/add-product
 router.get("/add-product", (req, res, next) => {
   res.sendFile(path.join(__dirname, "views", "add-product.html"));
 });
 
-// /admin/check-product
-router.post("/check-product", (req, res, next) => {
-  res.send(`<h3>${req.body.product} is available! 🎉</h3>`);
+// POST /admin/add-product
+router.post("/add-product", (req, res, next) => {
+  products.push({ title: req.body.title });
+  res.send(`<h3>${req.body.title} is available! 🎉</h3>`);
 });
 
 export default router;

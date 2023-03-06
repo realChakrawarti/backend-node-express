@@ -1,5 +1,6 @@
 import path from "path";
 import express from "express";
+import { products } from "./admin.js";
 
 const __dirname = path.resolve();
 
@@ -11,6 +12,7 @@ router.use("/products", (req, res, next) => {
 
 // By default path is "/"
 router.get("/", (req, res, next) => {
+  console.log("shop.js", products);
   res.sendFile(path.join(__dirname, "views", "shop.html"));
 });
 
