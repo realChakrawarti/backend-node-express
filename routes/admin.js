@@ -19,7 +19,7 @@ router.get("/add-product", (req, res, next) => {
 // POST /admin/add-product
 router.post("/add-product", (req, res, next) => {
   products.push({ title: req.body.title });
-  res.send(`<h3>${req.body.title} is available! 🎉</h3>`);
+  res.redirect("/");
 });
 
 export default router;
