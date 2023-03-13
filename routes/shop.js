@@ -13,7 +13,7 @@ router.use("/products", (req, res, next) => {
 // By default path is "/"
 router.get("/", (req, res, next) => {
   console.log("shop.js", products);
-  res.render("shop", { data: products, docTitle: "Shop" });
+  res.render("shop", { data: products, pageTitle: "Shop" });
 });
 
 export default router;
