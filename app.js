@@ -4,6 +4,7 @@ import path from "path";
 
 import adminRoutes from "./routes/admin.js";
 import shopRoutes from "./routes/shop.js";
+import * as errorController from "./controllers/errors.js";
 
 const __dirname = path.resolve();
 const PORT = 3000;
@@ -18,9 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
-app.use((req, res, next) => {
-  res.status(404).render("404", { pageTitle: "Page Not Found" });
-});
+app.use(errorController.get404Page);
 
 app.listen(PORT, () => {
   console.log(`server is listening on port ${PORT}...`);

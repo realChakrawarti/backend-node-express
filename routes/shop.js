@@ -1,6 +1,6 @@
 import path from "path";
 import express from "express";
-import { products } from "./admin.js";
+import * as productController from "../controllers/products.js";
 
 const __dirname = path.resolve();
 
@@ -11,9 +11,6 @@ router.use("/products", (req, res, next) => {
 });
 
 // By default path is "/"
-router.get("/", (req, res, next) => {
-  console.log("shop.js", products);
-  res.render("shop", { data: products, pageTitle: "Shop" });
-});
+router.get("/", productController.getProducts);
 
 export default router;
