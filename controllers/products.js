@@ -11,7 +11,8 @@ export const postAddProduct = (req, res, next) => {
 };
 
 export const getProducts = (req, res, next) => {
-  const products = Product.fetchAll();
-  console.log("shop.js", products);
-  res.render("shop", { data: products, pageTitle: "Shop" });
+  const products = Product.fetchAll((products) => {
+    console.log("shop.js", products);
+    res.render("shop", { data: products, pageTitle: "Shop" });
+  });
 };
