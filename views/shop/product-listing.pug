@@ -1,10 +1,11 @@
-extends layouts/main-layout.pug 
+extends ../layouts/main-layout.pug 
 
 block content 
   main
     if data.length > 0
       h1 All products
       each item in data
-        div #{item.productTitle}      
+        div #{item.productTitle}
+        a(href=`product/${item.id}`) Details
     else 
       h3 No products 
