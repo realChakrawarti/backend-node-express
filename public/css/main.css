@@ -2,10 +2,45 @@ html,
 body {
   margin: 0px;
   padding: 0px;
+  color: #f8f9fa;
+  background-color: #212529;
 }
 
 body > * {
   margin: 0px;
   padding: 10px;
   box-sizing: border-box;
+}
+
+a:link {
+  text-decoration: none;
+  color: "#efefef";
+}
+
+a:visited {
+  color: #e9e9;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.listing {
+  margin: auto auto;
+  width: 60%;
+}
+
+.listing-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.listing-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.listing-item {
+  display: flex;
+  justify-content: space-between;
 }

@@ -15,6 +15,28 @@ export default class Product {
     this.productTitle = title;
   }
 
+  static update(id, title) {
+    if (!title) return;
+    this.fetchAll((products) => {
+      const productIndex = products.findIndex((item) => item.id === id);
+      const updatedProduct = [...products];
+      updatedProduct[productIndex].productTitle = title;
+      fs.writeFile(filePath, JSON.stringify(updatedProduct), (err) => {
+        console.log(err);
+      });
+    });
+  }
+
+  static delete(id) {
+    if (!id) return;
+    this.fetchAll((products) => {
+      const updatedProduct = products.filter((item) => item.id !== id);
+      fs.writeFile(filePath, JSON.stringify(updatedProduct), (err) => {
+        console.log(err);
+      });
+    });
+  }
+
   save() {
     this.id = Date.now().toString();
     let products = [];

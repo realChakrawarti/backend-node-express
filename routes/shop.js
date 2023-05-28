@@ -1,4 +1,3 @@
-import path from "path";
 import express from "express";
 import * as productController from "../controllers/products.js";
 
@@ -9,6 +8,12 @@ router.use("/products", (req, res, next) => {
 });
 
 router.get("/product/:productId", productController.getProductById);
+
+router.get("/cart", productController.getCartProducts);
+
+router.post("/cart", productController.postCart);
+
+router.post("/cart/delete-item", productController.removeCartItem);
 
 // By default path is "/"
 router.get("/", productController.getProducts);

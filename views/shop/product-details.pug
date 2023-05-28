@@ -4,3 +4,6 @@ block content
   main
     div #{data.id}
     div #{data.productTitle}
+    form(action="/cart" method="POST")
+      button(type="submit") Add to Cart
+      input(type="hidden" name="productId" value=`${data.id}`)

@@ -1,0 +1,18 @@
+extends ../layouts/main-layout.pug 
+
+block content 
+  main
+    if data.length > 0
+      h1 Cart
+      .listing
+        .listing-container
+          each item in data
+            div.listing-item
+              div [#{item.id}] 
+                span 
+                  b #{item.productTitle} x#{item.quantity}
+              form(action="cart/delete-item" method="POST")
+                input(type="hidden" value=`${item.id}` name="productId")
+                button(type="submit") Remove
+    else 
+      h1 No Items in Cart

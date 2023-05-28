@@ -4,8 +4,20 @@ block content
   main
     if data.length > 0
       h1 All products
-      each item in data
-        div #{item.productTitle}
-        a(href=`product/${item.id}`) Details
+      .listing
+        .listing-container
+          each item in data
+            div.listing-item
+              div 
+                p  #{item.productTitle}
+                div.listing-actions
+                  a(href=`product/${item.id}`) Details
+                  a(href=`admin/edit-product/${item.id}`) Edit
+                  form(action="admin/delete-product" method="POST")
+                    button(type="submit") Delete
+                    input(type="hidden" name="productId" value=`${item.id}`)
+              form(action="/cart" method="POST" style="align-self: flex-end")
+                button(type="submit") Add to Cart
+                input(type="hidden" name="productId" value=`${item.id}`)
     else 
-      h3 No products 
+      h1 No products 
