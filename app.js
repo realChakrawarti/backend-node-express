@@ -6,6 +6,8 @@ import adminRoutes from "./routes/admin.js";
 import shopRoutes from "./routes/shop.js";
 import * as errorController from "./controllers/errors.js";
 
+import db from "./db.js";
+
 const __dirname = path.resolve();
 const PORT = 3000;
 const app = express();

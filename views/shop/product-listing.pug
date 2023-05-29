@@ -9,7 +9,7 @@ block content
           each item in data
             div.listing-item
               div 
-                p  #{item.productTitle}
+                p  #{item.title}
                 div.listing-actions
                   a(href=`product/${item.id}`) Details
                   a(href=`admin/edit-product/${item.id}`) Edit

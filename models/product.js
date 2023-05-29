@@ -1,14 +1,4 @@
-import path from "path";
-import fs from "fs";
-
-const filePath = path.join(path.resolve(), "data", "products.json");
-
-// const readFromFile = () => {
-//   fs.readFile(filePath, (err, fileContent) => {
-//     if (err) return []
-//     return JSON.parse(fileContent)
-//   })
-// }
+import db from "../db.js";
 
 export default class Product {
   constructor(title) {
@@ -38,33 +28,16 @@ export default class Product {
   }
 
   save() {
-    this.id = Date.now().toString();
-    let products = [];
-    fs.readFile(filePath, (err, fileContent) => {
-      console.log(err);
-      if (!err) {
-        products = JSON.parse(fileContent);
-      }
-      products.push(this);
-      fs.writeFile(filePath, JSON.stringify(products), (err) => {
-        console.log(err);
-      });
-    });
+    return db.execute("INSERT INTO products (title) VALUES(?)", [
+      this.productTitle,
+    ]);
   }
 
-  static fetchAll(cb) {
-    fs.readFile(filePath, { encoding: "utf8" }, (err, fileContent) => {
-      if (err) return cb([]);
-      cb(JSON.parse(fileContent));
-    });
+  static fetchAll() {
+    return db.execute("SELECT * FROM products");
   }
 
-  static findById(id, cb) {
-    fs.readFile(filePath, (err, fileContent) => {
-      if (err) return cb([]);
-      const parsedContent = JSON.parse(fileContent);
-      const product = parsedContent.find((item) => item.id === id);
-      cb(product);
-    });
+  static findById(id) {
+    return db.execute("SELECT * from products WHERE products.id = ?", [id]);
   }
 }

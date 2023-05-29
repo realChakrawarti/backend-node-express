@@ -17,12 +17,14 @@ export const getEditProductPage = (req, res, next) => {
 
 export const getProductById = (req, res, next) => {
   const productId = req.params.productId;
-  Product.findById(productId, (product) =>
-    res.render("shop/product-details", {
-      data: product,
-      pageTitle: `${product.productTitle}`,
-    })
-  );
+  Product.findById(productId)
+    .then(([product]) =>
+      res.render("shop/product-details", {
+        data: product[0],
+        pageTitle: `${product[0].title}`,
+      })
+    )
+    .catch((err) => console.log(err));
 };
 
 export const postCart = (req, res, next) => {
@@ -40,7 +42,10 @@ export const removeCartItem = (req, res, next) => {
 
 export const postAddProduct = (req, res, next) => {
   const product = new Product(req.body.title);
-  product.save();
+  product
+    .save()
+    .then(() => {})
+    .catch((err) => console.log(err));
   res.redirect("/");
 };
 
@@ -59,9 +64,11 @@ export const deleteProduct = (req, res, next) => {
 };
 
 export const getProducts = (req, res, next) => {
-  const products = Product.fetchAll((products) => {
-    res.render("shop/product-listing", { data: products, pageTitle: "Shop" });
-  });
+  const products = Product.fetchAll()
+    .then(([rows, metaData]) => {
+      res.render("shop/product-listing", { data: rows, pageTitle: "Shop" });
+    })
+    .catch();
 };
 
 export const getCartProducts = (req, res, next) => {
