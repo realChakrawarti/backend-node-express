@@ -6,7 +6,7 @@ import adminRoutes from "./routes/admin.js";
 import shopRoutes from "./routes/shop.js";
 import * as errorController from "./controllers/errors.js";
 
-import db from "./db.js";
+import sequelize from "./db.js";
 
 const __dirname = path.resolve();
 const PORT = 3000;
@@ -23,6 +23,12 @@ app.use(shopRoutes);
 
 app.use(errorController.get404Page);
 
-app.listen(PORT, () => {
-  console.log(`server is listening on port ${PORT}...`);
-});
+sequelize
+  .sync()
+  .then((result) => {
+    app.listen(PORT, () => {
+      // console.log(result);
+    });
+    console.log(`server is listening on port ${PORT}...`);
+  })
+  .catch((err) => console.log(err));

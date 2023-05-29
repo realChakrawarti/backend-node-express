@@ -21,7 +21,7 @@ export const getProductById = (req, res, next) => {
     .then(([product]) =>
       res.render("shop/product-details", {
         data: product[0],
-        pageTitle: `${product[0].title}`,
+        pageTitle: `${product.title}`,
       })
     )
     .catch((err) => console.log(err));
@@ -41,12 +41,12 @@ export const removeCartItem = (req, res, next) => {
 };
 
 export const postAddProduct = (req, res, next) => {
-  const product = new Product(req.body.title);
-  product
-    .save()
-    .then(() => {})
+  Product.create({
+    title: req.body.title,
+  })
+    .then((result) => console.log("Added product!"))
     .catch((err) => console.log(err));
-  res.redirect("/");
+  // res.redirect("/");
 };
 
 export const postEditProduct = (req, res, next) => {

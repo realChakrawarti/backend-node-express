@@ -1,43 +1,15 @@
-import db from "../db.js";
+import { DataTypes } from "sequelize";
 
-export default class Product {
-  constructor(title) {
-    this.productTitle = title;
-  }
+import sequelize from "../db.js";
 
-  static update(id, title) {
-    if (!title) return;
-    this.fetchAll((products) => {
-      const productIndex = products.findIndex((item) => item.id === id);
-      const updatedProduct = [...products];
-      updatedProduct[productIndex].productTitle = title;
-      fs.writeFile(filePath, JSON.stringify(updatedProduct), (err) => {
-        console.log(err);
-      });
-    });
-  }
+const Product = sequelize.define("product", {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true,
+  },
+  title: DataTypes.STRING,
+});
 
-  static delete(id) {
-    if (!id) return;
-    this.fetchAll((products) => {
-      const updatedProduct = products.filter((item) => item.id !== id);
-      fs.writeFile(filePath, JSON.stringify(updatedProduct), (err) => {
-        console.log(err);
-      });
-    });
-  }
-
-  save() {
-    return db.execute("INSERT INTO products (title) VALUES(?)", [
-      this.productTitle,
-    ]);
-  }
-
-  static fetchAll() {
-    return db.execute("SELECT * FROM products");
-  }
-
-  static findById(id) {
-    return db.execute("SELECT * from products WHERE products.id = ?", [id]);
-  }
-}
+export default Product;
