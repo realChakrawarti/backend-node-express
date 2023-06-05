@@ -3,6 +3,6 @@ extends layouts/main-layout.pug
 block content 
   main
     form(action="/admin/edit-product", method="post") 
-      input(type="text", name="title", value=`${data.productTitle}`)
+      input(type="text", name="title", value=`${data.title}`)
       input(type="hidden", name="productId", value=`${data.id}`)
       button(type="submit") Edit Product
