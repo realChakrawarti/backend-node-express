@@ -9,6 +9,8 @@ import * as errorController from "./controllers/errors.js";
 import sequelize from "./db.js";
 import Product from "./models/product.js";
 import User from "./models/user.js";
+import Cart from "./models/cart.js";
+import CartItem from "./models/cart-item.js";
 
 const __dirname = path.resolve();
 const PORT = 3000;
@@ -35,9 +37,17 @@ app.use(shopRoutes);
 app.use(errorController.get404Page);
 
 // Associations
-
+// User Product
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
+
+// User Cart
+User.hasOne(Cart);
+Cart.belongsTo(User); // Optional, which is reverse of the above association
+
+// Product Cart, Many-To-Many using intermediate table
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 sequelize
   // .sync({ force: true })
@@ -46,15 +56,19 @@ sequelize
     return Product.findByPk(1);
   })
   .then((user) => {
+    console.log("User found", user);
     if (!user) {
       return User.create({ name: "John", email: "john@example.com" });
     }
     return user;
   })
   .then((user) => {
+    return user.createCart();
     // console.log(user);
+  })
+  .then((cart) => {
     app.listen(PORT, () => {
-      // console.log(result);
+      // console.log(cart);
     });
     console.log(`server is listening on port ${PORT}...`);
   })

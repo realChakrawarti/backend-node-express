@@ -10,7 +10,7 @@ block content
             div.listing-item
               div [#{item.id}] 
                 span 
-                  b #{item.productTitle} x#{item.quantity}
+                  b #{item.title} x#{item.cartItem.quantity}
               form(action="cart/delete-item" method="POST")
                 input(type="hidden" value=`${item.id}` name="productId")
                 button(type="submit") Remove
