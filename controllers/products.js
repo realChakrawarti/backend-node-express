@@ -7,8 +7,10 @@ export const getAddproductPage = (req, res, next) => {
 
 export const getEditProductPage = (req, res, next) => {
   const productId = req.params.productId;
-  Product.findByPk(productId)
-    .then((product) => {
+  req.user
+    .getProducts({ where: { id: productId } })
+    .then((products) => {
+      const product = products[0];
       res.render("edit-product", {
         data: product,
         pageTitle: "Edit Product",
@@ -90,7 +92,8 @@ export const deleteProduct = (req, res, next) => {
 };
 
 export const getProducts = (req, res, next) => {
-  Product.findAll()
+  req.user
+    .getProducts()
     .then((products) => {
       res.render("shop/product-listing", { data: products, pageTitle: "Shop" });
     })
