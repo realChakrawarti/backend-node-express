@@ -1,5 +1,4 @@
 import Product from "../models/product.js";
-// import Cart from "../models/cart.js";
 
 export const getAddproductPage = (req, res, next) => {
   res.render("add-product", { pageTitle: "Add Product Title" });
@@ -72,8 +71,17 @@ export const postCart = (req, res, next) => {
 
 export const removeCartItem = (req, res, next) => {
   const productId = req.body.productId;
-  // Cart.removeItem(productId);
-  res.redirect("/cart");
+  req.user
+    .getCart()
+    .then((cart) => {
+      return cart.getProducts({ where: { id: productId } });
+    })
+    .then((products) => {
+      const product = products.at(0);
+      return product.cartItem.destroy();
+    })
+    .then(() => res.redirect("/cart"))
+    .catch((err) => console.log(err));
 };
 
 export const postAddProduct = (req, res, next) => {
@@ -114,7 +122,6 @@ export const deleteProduct = (req, res, next) => {
       return res.redirect("/");
     })
     .catch((err) => console.log(err));
-  // Cart.removeItem(productId);
 };
 
 export const getProducts = (req, res, next) => {
@@ -133,8 +140,10 @@ export const getCartProducts = (req, res, next) => {
       return cart
         .getProducts()
         .then((products) => {
-          console.log("productsInCart", products);
-          res.render("shop/cart", { pageTitle: "My Cart", data: products });
+          return res.render("shop/cart", {
+            pageTitle: "My Cart",
+            data: products,
+          });
         })
         .catch((err) => console.log(err));
     })
