@@ -4,6 +4,19 @@ export const getAddproductPage = (req, res, next) => {
   res.render("add-product", { pageTitle: "Add Product Title" })
 }
 
+export const getLoginPage = (req, res, next) => {
+  let isLoggedIn = false
+  if (req.get("Cookie")) {
+    isLoggedIn = req.get("Cookie").split("=")[1] === "true"
+  }
+  res.render("login", { pageTitle: "Login", isAuthenticated: isLoggedIn })
+}
+
+export const postLogin = (req, res, next) => {
+  res.setHeader("Set-Cookie", "loggedIn=true")
+  res.redirect("/")
+}
+
 export const getEditProductPage = (req, res, next) => {
   const productId = req.params.productId
   Product.findById(productId)

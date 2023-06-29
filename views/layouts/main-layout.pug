@@ -16,4 +16,10 @@ html(lang="en")
             a(href="/admin/add-product") Add Product 
           li 
             a(href="/cart") Cart 
+          if isAuthenticated
+            p You are logged in! 
+          else 
+            li 
+              a(href="/login") Login
+           
     block content

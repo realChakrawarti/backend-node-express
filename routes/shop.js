@@ -9,6 +9,10 @@ router.use("/products", (req, res, next) => {
 
 router.get("/product/:productId", productController.getProductById)
 
+router.get("/login", productController.getLoginPage)
+
+router.post("/login", productController.postLogin)
+
 // router.get("/cart", productController.getCartProducts);
 
 // router.post("/cart", productController.postCart);
