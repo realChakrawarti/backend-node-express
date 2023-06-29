@@ -1,14 +1,12 @@
-import { Sequelize } from "sequelize";
+import { MongoClient } from "mongodb"
 
-const DATABASE = "sqlize";
-const USER = "root";
-const PASSWORD = "password";
-const HOST = "localhost";
-const SERVER = "mysql";
+const URI = "mongodb://127.0.0.1:27017"
 
-const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
-  dialect: SERVER,
-  host: HOST,
-});
-
-export default sequelize;
+export const mongoConnect = (callback) => {
+  MongoClient.connect(URI)
+    .then((client) => {
+      console.log("Connected")
+      callback(client)
+    })
+    .catch((err) => console.error(err))
+}
