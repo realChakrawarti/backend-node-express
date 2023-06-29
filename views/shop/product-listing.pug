@@ -11,13 +11,13 @@ block content
               div 
                 p  #{item.title}
                 div.listing-actions
-                  a(href=`product/${item.id}`) Details
-                  a(href=`admin/edit-product/${item.id}`) Edit
+                  a(href=`product/${item._id}`) Details
+                  a(href=`admin/edit-product/${item._id}`) Edit
                   form(action="admin/delete-product" method="POST")
                     button(type="submit") Delete
-                    input(type="hidden" name="productId" value=`${item.id}`)
+                    input(type="hidden" name="productId" value=`${item._id}`)
               form(action="/cart" method="POST" style="align-self: flex-end")
                 button(type="submit") Add to Cart
-                input(type="hidden" name="productId" value=`${item.id}`)
+                input(type="hidden" name="productId" value=`${item._id}`)
     else 
       h1 No products 

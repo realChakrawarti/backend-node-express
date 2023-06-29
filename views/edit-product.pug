@@ -4,5 +4,5 @@ block content
   main
     form(action="/admin/edit-product", method="post") 
       input(type="text", name="title", value=`${data.title}`)
-      input(type="hidden", name="productId", value=`${data.id}`)
+      input(type="hidden", name="productId", value=`${data._id}`)
       button(type="submit") Edit Product

@@ -2,8 +2,8 @@ import express from "express"
 import bodyParser from "body-parser"
 import path from "path"
 
-// import adminRoutes from "./routes/admin.js"
-// import shopRoutes from "./routes/shop.js"
+import adminRoutes from "./routes/admin.js"
+import shopRoutes from "./routes/shop.js"
 import * as errorController from "./controllers/errors.js"
 import { mongoConnect } from "./db.js"
 
@@ -24,14 +24,14 @@ app.use((req, res, next) => {
   //     next();
   //   })
   //   .catch((err) => console.log(err));
+  next()
 })
 
-// app.use("/admin", adminRoutes)
-// app.use(shopRoutes)
+app.use("/admin", adminRoutes)
+app.use(shopRoutes)
 
 app.use(errorController.get404Page)
 
-mongoConnect((client) => {
+mongoConnect(() => {
   app.listen(PORT, () => console.log(`server is listening on ${PORT}...`))
-  console.log(client)
 })
