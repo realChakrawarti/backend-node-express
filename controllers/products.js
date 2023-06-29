@@ -78,7 +78,9 @@ export const removeCartItem = (req, res, next) => {
 
 export const postAddProduct = (req, res, next) => {
   const title = req.body.title
-  const product = new Product(title)
+  const product = new Product({
+    title: title,
+  })
   product
     .save()
     .then((result) => {
@@ -92,9 +94,11 @@ export const postEditProduct = (req, res, next) => {
   const productId = req.body.productId
   const updatedTitle = req.body.title
 
-  const product = new Product(updatedTitle, productId)
-  product
-    .save()
+  Product.findById(productId)
+    .then((product) => {
+      product.title = updatedTitle
+      return product.save()
+    })
     .then(() => {
       console.log("Updated product")
       res.redirect("/")
@@ -104,7 +108,7 @@ export const postEditProduct = (req, res, next) => {
 
 export const deleteProduct = (req, res, next) => {
   const productId = req.body.productId
-  Product.deleteById(productId)
+  Product.findByIdAndDelete(productId)
     .then(() => {
       return res.redirect("/")
     })
@@ -112,8 +116,9 @@ export const deleteProduct = (req, res, next) => {
 }
 
 export const getProducts = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
+      console.log(products)
       res.render("shop/product-listing", { data: products, pageTitle: "Shop" })
     })
     .catch((err) => console.log(err))
