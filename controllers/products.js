@@ -1,19 +1,28 @@
 import Product from "../models/product.js"
 
 export const getAddproductPage = (req, res, next) => {
-  res.render("add-product", { pageTitle: "Add Product Title" })
+  res.render("add-product", {
+    pageTitle: "Add Product Title",
+    isAuthenticated: req.session.isLoggedIn,
+  })
 }
 
 export const getLoginPage = (req, res, next) => {
-  let isLoggedIn = false
-  if (req.get("Cookie")) {
-    isLoggedIn = req.get("Cookie").split("=")[1] === "true"
-  }
-  res.render("login", { pageTitle: "Login", isAuthenticated: isLoggedIn })
+  res.render("login", {
+    pageTitle: "Login",
+    isAuthenticated: req.session.isLoggedIn,
+  })
+}
+
+export const postLogout = (req, res, next) => {
+  req.session.destroy((err) => {
+    console.log(err)
+    res.redirect("/")
+  })
 }
 
 export const postLogin = (req, res, next) => {
-  res.setHeader("Set-Cookie", "loggedIn=true")
+  req.session.isLoggedIn = true
   res.redirect("/")
 }
 
@@ -24,6 +33,7 @@ export const getEditProductPage = (req, res, next) => {
       res.render("edit-product", {
         data: product,
         pageTitle: "Edit Product",
+        isAuthenticated: req.session.isLoggedIn,
       })
     })
     .catch((err) => console.error(err))
@@ -36,6 +46,7 @@ export const getProductById = (req, res, next) => {
       res.render("shop/product-details", {
         data: product,
         pageTitle: `${product.title}`,
+        isAuthenticated: req.session.isLoggedIn,
       })
     )
     .catch((err) => console.log(err))
@@ -132,7 +143,11 @@ export const getProducts = (req, res, next) => {
   Product.find()
     .then((products) => {
       console.log(products)
-      res.render("shop/product-listing", { data: products, pageTitle: "Shop" })
+      res.render("shop/product-listing", {
+        data: products,
+        pageTitle: "Shop",
+        isAuthenticated: req.session.isLoggedIn,
+      })
     })
     .catch((err) => console.log(err))
 }

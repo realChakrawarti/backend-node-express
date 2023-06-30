@@ -13,6 +13,8 @@ router.get("/login", productController.getLoginPage)
 
 router.post("/login", productController.postLogin)
 
+router.post("/logout", productController.postLogout)
+
 // router.get("/cart", productController.getCartProducts);
 
 // router.post("/cart", productController.postCart);
