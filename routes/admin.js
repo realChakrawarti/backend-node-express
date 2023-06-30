@@ -1,6 +1,7 @@
 import express from "express"
 import path from "path"
 import * as productController from "../controllers/products.js"
+import isAuth from "../middleware/isAuth.js"
 
 const __dirname = path.resolve()
 
@@ -11,18 +12,22 @@ router.use("/products", (req, res, next) => {
 })
 
 // GET /admin/add-product
-router.get("/add-product", productController.getAddproductPage)
+router.get("/add-product", isAuth, productController.getAddproductPage)
 
 // GET /admin/edit-product
-router.get("/edit-product/:productId", productController.getEditProductPage)
+router.get(
+  "/edit-product/:productId",
+  isAuth,
+  productController.getEditProductPage
+)
 
 // POST /admin/add-product
-router.post("/add-product", productController.postAddProduct)
+router.post("/add-product", isAuth, productController.postAddProduct)
 
 // POST /admin/edit-product
-router.post("/edit-product", productController.postEditProduct)
+router.post("/edit-product", isAuth, productController.postEditProduct)
 
 // POST /admin/delete-product
-router.post("/delete-product", productController.deleteProduct)
+router.post("/delete-product", isAuth, productController.deleteProduct)
 
 export default router
